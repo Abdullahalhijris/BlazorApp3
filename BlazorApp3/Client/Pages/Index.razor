@@ -1,0 +1,27 @@
+﻿@page "/"
+@using BlazorApp3.Shared;
+@using BlazorProject.Client.Services;
+@using Syncfusion.Blazor.Grids
+
+<SfGrid DataSource="@Employees">
+    <GridColumns>
+        <GridColumn Field=@nameof(Employee.EmployeeId) HeaderText="Employee ID"></GridColumn>
+        <GridColumn Field=@nameof(Employee.FirstName) HeaderText="First Name"></GridColumn>
+        <GridColumn Field=@nameof(Employee.LastName) HeaderText=" Last Name"></GridColumn>
+        <GridColumn Field=@nameof(Employee.Email) HeaderText="Email"></GridColumn>
+    </GridColumns>
+</SfGrid>
+
+@code {
+    
+    public List<Employee> Employees { get; set; }
+
+    [Inject]
+    public IEmployeeService EmployeeService { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        Employees = (await EmployeeService.GetEmployees()).ToList();
+    }
+}
+}
